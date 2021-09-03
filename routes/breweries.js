@@ -4,13 +4,17 @@ const breweries = require('../controllers/breweries');
 const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn, isAuthor, validateBrewery } = require('../middleware')
 
+router.route('/')
+    .get(catchAsync(breweries.index))
+    .post(isLoggedIn, validateBrewery, catchAsync(breweries.createBrewery))
 
-router.get('/', catchAsync(breweries.index));
 router.get('/new', isLoggedIn, breweries.renderNewForm);
-router.post('/', isLoggedIn, validateBrewery, catchAsync(breweries.createBrewery));
-router.get('/:id', catchAsync(breweries.showBrewery));
+
+router.route('/:id')
+    .get(catchAsync(breweries.showBrewery))
+    .put(isLoggedIn, isAuthor, validateBrewery, catchAsync(breweries.updateBrewery))
+    .delete(isLoggedIn, isAuthor, catchAsync(breweries.deleteBrewery))
+
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(breweries.renderEditForm));
-router.put('/:id', isLoggedIn, isAuthor, validateBrewery, catchAsync(breweries.updateBrewery));
-router.delete('/:id', isLoggedIn, isAuthor, catchAsync(breweries.deleteBrewery));
 
 module.exports = router;
