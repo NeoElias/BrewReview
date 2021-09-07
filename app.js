@@ -15,12 +15,14 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
+const MongoStore = require('connect-mongo');
 
 const userRoutes = require('./routes/users');
 const breweryRoutes = require('./routes/breweries');
 const reviewRoutes = require('./routes/reviews');
 
-mongoose.connect('mongodb://localhost:27017/brewery-review', {
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/brewery-review'
+mongoose.connect(dbUrl, {
     useNewUrlParser:true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -44,12 +46,25 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize());
 
+const secret = process.env.SECRET || 'thisshouldbeabettersecret'
+const store = new MongoStore({
+    mongoUrl: dbUrl,
+    secret,
+    touchAfter: 24 * 60 * 60
+})
+
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e)
+})
+
 const sessionConfig = {
-    secret: 'thishouldbeabettersecret!',
+    store,
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
-        name: 'session',
+        store,
+        name: 'sessionD',
         httpOnly: true,
         // secure: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
@@ -137,6 +152,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('errors', { err });
 })
 
-app.listen(3000, () => {
-    console.log('Serving on port 3000')
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Serving on port ${port}`)
 })
