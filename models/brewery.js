@@ -2,9 +2,16 @@ const mongoose = require('mongoose');
 const Review = require('./review');
 const Schema = mongoose.Schema;
 
+const ImageSchema = new Schema({
+    path: String,
+    filename: String
+});
+ImageSchema.virtual('thumbnail').get(function () {
+    return this.path.replace('/upload', '/upload/w_200');
+});
 const BrewerySchema = new Schema({
     title: String,
-    image: String,
+    image: [ImageSchema],
     description: String,
     location: String,
     author: {

@@ -1,11 +1,12 @@
 <% layout('/layouts/boilerplate') %> 
 <link rel="stylesheet" href="/stylesheets/stars.css">
 
-
 <div class="row">
     <div class="col-6">
         <div class="card mb-3">
-            <img src="<%= brewery.image %>" class="card-img-top" alt="...">
+            <% for(let img of brewery.image) {%> 
+                <img src="<%= img.path %>" class="card-img-top" alt="...">
+            <% } %> 
             <div class="card-body">
               <h5 class="card-title"><%= brewery.title %></h5>
               <p class="card-text"><%= brewery.description %></p>
@@ -30,7 +31,7 @@
     </div>
     <div class="col-6">
         <% if(currentUser) {%> 
-        <h2>Leave a review</h2>
+        <h3>Leave a review</h3>
             <form action="/breweries/<%= brewery._id %>/reviews" method="POST" class="mb-3 validated-form" novalidate>
                 <div class="mb-3">
                     <fieldset class="starability-growRotate">
@@ -62,11 +63,19 @@
             <% for(let review of brewery.reviews) { %> 
             <div class="card mb-3">
                 <div class="card-body">
-                    <h5 class="card-title"> <%= review.author.username %> </h5>
-                    <p class="starability-result" data-rating= "<%= review.rating %>" >
-                        Rated: <%= review.rating %> 
-                      </p>
-                    <p class="card-text">Review: <%= review.body %></p>
+                    <h5 class="card-subtitle mb-2 ">
+                        <b><%= review.author.username %></b> 
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                       <small><%= review.timestamp %></small> 
+                    </h6>
+                    
+                    <p class="card-text">
+                        <h4 class="starability-result" data-rating= "<%= review.rating %>" >
+                            Rated: <%= review.rating %> 
+                        </h4>
+                        <%= review.body %>
+                    </p>
                     <% if( currentUser && review.author.equals(currentUser._id)) {%>
                     <form action="/breweries/<%= brewery._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
                         <button class="btn btn-sm btn-danger">Delete</button>

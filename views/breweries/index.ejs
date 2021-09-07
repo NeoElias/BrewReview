@@ -6,10 +6,12 @@
 </div>
 
 <% for (let brewery of breweries){%>
-    <div class="card" mb-3>
+    <div class="card mb-3">
         <div class="row">
             <div class="col-md-4">
-                <img src="<%= brewery.image %> " alt="" class="img-fluid">
+                <% for(let img of brewery.image) {%> 
+                    <img src="<%= img.path %>" class="card-img-top" alt="...">
+                <% } %> 
             </div>
             <div class="col-md-8">
                 <div class="card-body">

@@ -1,8 +1,8 @@
 <% layout('/layouts/boilerplate') %> 
 <div class="row">
     <h1 class="text-center">New Brewery</h1>
-    <div class="col-6 offset-3">
-        <form action="/breweries" method="POST" novalidate class="validated-form">
+    <div class="col-md-6 offset-md-3">
+        <form action="/breweries" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
                 <input class="form-control" type="text" id="title" name="brewery[title]" required>
@@ -17,14 +17,7 @@
                     Looks good!
                 </div>
             </div>
-            <div class="mb-3">
-                <label class="form-label" for="image">Image Url</label>
-                <input class="form-control" type="text" id="image" name="brewery[image]" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
-            
+             
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
                 <textarea class="form-control" type="text" id="description" name="brewery[description]" required></textarea>
@@ -32,6 +25,12 @@
                     Looks good!
                 </div>
             </div>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">Upload Image</label>
+                <input class="form-control" type="file" id="image" name="image">
+            </div>
+            
             <div class="mb-3">
                 <button class="btn btn-success">Add Brewery</button>
             </div>

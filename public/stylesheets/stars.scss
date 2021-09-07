@@ -1,0 +1,47 @@
+@import '../stylesheets/variables';
+@import '../stylesheets/starability-base';
+
+.starability-result {
+    position: relative;
+    width: $star-count * $star-size;
+    height: $star-size;
+    background-image: $img-stars-sprite;
+    font-size: 0.1em;
+    color: transparent;
+  
+    &:after {
+      content: ' ';
+      position: absolute;
+      left: 0;
+      height: $star-size;
+      background-image: $img-stars-sprite;
+      background-position: 0 (-$star-size);
+    }
+  
+    $star-count-result: $star-count;
+  
+    @while $star-count-result > 0 {
+      $star-number: $star-count-result;
+  
+      &[data-rating="#{$star-number}"]::after {
+        width: $star-number * $star-size;
+      }
+  
+      $star-count-result: $star-count-result - 1;
+    }
+    
+    @media screen and (min-resolution: 192dpi) {
+      background-image: $img-stars-sprite-2x;
+      background-size: $star-size auto;
+  
+      &:after {
+        background-image: $img-stars-sprite-2x;
+        background-size: $star-size auto;
+      }
+    }
+  }
+
+.starability-growRotate {
+      @include starability-base();
+      @include starability-animation-base($img-animated: $img-stars-sprite, $img-animated-2x: $img-stars-sprite-2x);
+}

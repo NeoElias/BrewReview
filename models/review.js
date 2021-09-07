@@ -8,7 +8,12 @@ const reviewSchema = new Schema({
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    timestamp: String
 })
 
 
