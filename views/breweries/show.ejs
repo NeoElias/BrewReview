@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="/stylesheets/stars.css">
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-sm-6">
         <div class="card mb-3">
             <% for(let img of brewery.image) {%> 
                 <img src="<%= img.path %>" class="card-img-top" alt="...">
@@ -29,7 +29,7 @@
             </div> 
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-sm-6">
         <% if(currentUser) {%> 
         <h3>Leave a review</h3>
             <form action="/breweries/<%= brewery._id %>/reviews" method="POST" class="mb-3 validated-form" novalidate>
@@ -59,7 +59,8 @@
 
                 <button class="btn btn-success mb-3">Submit</button>
             </form>
-            <% } %> 
+            <% } %>
+            <h4>Reviews:</h4> 
             <% for(let review of brewery.reviews) { %> 
             <div class="card mb-3">
                 <div class="card-body">
