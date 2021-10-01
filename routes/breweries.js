@@ -18,6 +18,7 @@ router.route('/:id')
     .put(isLoggedIn, isAuthor, upload.single('image'), validateBrewery, catchAsync(breweries.updateBrewery))
     .delete(isLoggedIn, isAuthor, catchAsync(breweries.deleteBrewery))
 
+/* edit brewery */
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(breweries.renderEditForm));
 
 module.exports = router;
